@@ -2,10 +2,10 @@ import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { domain } from "../../data/siteConfig";
-import { getFiles, getFileBySlug } from "../../lib/mdx";
-import Layout from "../../components/Layout";
-import Hero from "../../components/Hero";
+import { siteConfig } from "@/config/site.config";
+import { getFiles, getFileBySlug } from "@/lib/mdx";
+import { Layout } from "@/components/layout";
+import Hero from "@/components/Hero";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 interface BlogFrontMatter {
@@ -30,11 +30,11 @@ export default function Blog({ mdxSource, frontMatter }: BlogProps) {
       <NextSeo
         title={frontMatter.title}
         description={frontMatter.summary}
-        canonical={`${domain}/blog/${slug}`}
+        canonical={`${siteConfig.url}/blog/${slug}`}
         openGraph={{
           title: frontMatter.title,
           description: frontMatter.summary,
-          url: `${domain}/blog/${slug}`,
+          url: `${siteConfig.url}/blog/${slug}`,
           type: 'article',
           article: {
             publishedTime: new Date(frontMatter.publishedAt).toISOString(),
@@ -42,7 +42,7 @@ export default function Blog({ mdxSource, frontMatter }: BlogProps) {
           },
           images: [
             {
-              url: `${domain}/${frontMatter.image}`,
+              url: `${siteConfig.url}/${frontMatter.image}`,
               width: 1350,
               height: 650,
               alt: frontMatter.title,

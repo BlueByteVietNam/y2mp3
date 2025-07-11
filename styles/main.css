@@ -1,8 +1,9 @@
 @import url("./mvp.css");
+@import url("./theme.css");
 
 :root {
-  --color: #103de8;
-  --color-text-secondary: #565454;
+  --color: var(--color-primary);
+  --color-text-secondary: var(--color-muted);
 }
 div header {
   padding: 3rem 1rem;

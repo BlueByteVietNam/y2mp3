@@ -12,3 +12,5 @@ All versions are available for use and ready for the productions.
 ## Reporting a Vulnerability
 
 In case of any Vulnerability detection please inform admin by email only.
+
+

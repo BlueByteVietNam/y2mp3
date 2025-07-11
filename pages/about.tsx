@@ -1,9 +1,9 @@
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { NextSeo } from "next-seo";
-import Layout from "../components/Layout";
-import { domain } from "../data/siteConfig";
-import { getFileBySlug } from "../lib/mdx";
-import Hero from "../components/Hero";
+import { Layout } from "@/components/layout";
+import { siteConfig } from "@/config/site.config";
+import { getFileBySlug } from "@/lib/mdx";
+import Hero from "@/components/Hero";
 
 interface AboutProps {
   mdxSource: MDXRemoteSerializeResult;
@@ -24,9 +24,9 @@ export default function About({ mdxSource, frontMatter }: AboutProps) {
       <NextSeo
         title="About Us - NextVita"
         description="About Google Core Web Vital SEO update ready Next JS template with attractive blue theme for free download."
-        canonical={`${domain}/about`}
+        canonical={`${siteConfig.url}/about`}
         openGraph={{
-          url: `${domain}/about`,
+          url: `${siteConfig.url}/about`,
           title:
             "About Us - NextVita",
           description:

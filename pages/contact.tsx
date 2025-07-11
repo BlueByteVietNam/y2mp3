@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { NextSeo } from "next-seo";
-import { domain } from "../data/siteConfig";
-import Layout from "../components/Layout";
-import * as gtag from "../lib/analytics";
+import { siteConfig } from "@/config/site.config";
+import { Layout } from "@/components/layout";
+import * as gtag from "@/lib/analytics";
 import { FormEvent } from "react";
 
 const Contact = () => {
@@ -22,9 +22,9 @@ const Contact = () => {
       <NextSeo
         title="Contact Us - NextVita"
         description="Contact us we will try to reach you soon. This is an demo contact page for the template."
-        canonical={`${domain}/contact`}
+        canonical={`${siteConfig.url}/contact`}
         openGraph={{
-          url: `${domain}/contact`,
+          url: `${siteConfig.url}/contact`,
           title: "Contact Us - NextVita",
           description:
             "Contact us we will try to reach you soon. This is an demo contact page for the template.",

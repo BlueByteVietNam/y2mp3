@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { NextSeo } from "next-seo";
-import { domain } from "../data/siteConfig";
-import BlogPost from "../components/BlogPost";
-import Layout from "../components/Layout";
-import { getAllFilesFrontMatter } from "../lib/mdx";
-import Hero from "../components/Hero";
+import { siteConfig } from "@/config/site.config";
+import BlogPost from "@/components/BlogPost";
+import { Layout } from "@/components/layout";
+import { getAllFilesFrontMatter } from "@/lib/mdx";
+import Hero from "@/components/Hero";
 
 interface Post {
   title: string;
@@ -51,9 +51,9 @@ export default function Blog({ posts }: BlogProps) {
       <NextSeo
         title="Blog Page - NextVita"
         description="Blog for this website are available here. You can find blog using input box provided in the top. "
-        canonical={`${domain}/blog`}
+        canonical={`${siteConfig.url}/blog`}
         openGraph={{
-          url: `${domain}/blog`,
+          url: `${siteConfig.url}/blog`,
           title: "Blog Page - NextVita",
           description:
             "Blog for this website are available here. You can find blog using input box provided in the top. ",
