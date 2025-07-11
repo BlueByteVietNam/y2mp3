@@ -2,37 +2,59 @@ import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
 import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemoteSerializeResult } from "next-mdx-remote";
 
 const root = process.cwd();
 
-export async function getFiles(type) {
+interface FrontMatter {
+  [key: string]: any;
+  wordCount: number;
+  slug: string | null;
+}
+
+interface FileData {
+  mdxSource: MDXRemoteSerializeResult;
+  tweetIDs: string[];
+  frontMatter: FrontMatter;
+}
+
+export async function getFiles(type: string): Promise<string[]> {
   return fs.readdirSync(path.join(root, "data", type));
 }
 
-export async function getFileBySlug(type, slug) {
+export async function getFileBySlug(type: string, slug?: string): Promise<FileData> {
   const source = slug
     ? fs.readFileSync(path.join(root, "data", type, `${slug}.mdx`), "utf8")
     : fs.readFileSync(path.join(root, "data", `${type}.mdx`), "utf8");
 
   const { data, content } = matter(source);
+  const [remarkSlug, remarkAutolink, remarkCodeTitles] = await Promise.all([
+    import("remark-slug"),
+    import("remark-autolink-headings"),
+    import("remark-code-titles"),
+  ]);
+
   const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [
-        require("remark-slug"),
+        remarkSlug.default,
         [
-          require("remark-autolink-headings"),
+          remarkAutolink.default,
           {
             linkProperties: {
               className: ["anchor"],
             },
           },
         ],
-        require("remark-code-titles"),
+        remarkCodeTitles.default,
       ],
     },
   });
   const tweetMatches = content.match(/<StaticTweet\sid="[0-9]+"\s\/>/g);
-  const tweetIDs = tweetMatches?.map((tweet) => tweet.match(/[0-9]+/g)[0]);
+  const tweetIDs = tweetMatches?.map((tweet) => {
+    const match = tweet.match(/[0-9]+/g);
+    return match ? match[0] : '';
+  }).filter(Boolean);
 
   return {
     mdxSource,
@@ -45,10 +67,10 @@ export async function getFileBySlug(type, slug) {
   };
 }
 
-export async function getAllFilesFrontMatter(type) {
+export async function getAllFilesFrontMatter(type: string): Promise<any[]> {
   const files = fs.readdirSync(path.join(root, "data", type));
 
-  return files.reduce((allPosts, postSlug) => {
+  return files.reduce<any[]>((allPosts, postSlug) => {
     const source = fs.readFileSync(
       path.join(root, "data", type, postSlug),
       "utf8"

@@ -1,7 +1,7 @@
 import { analyticId } from "../data/siteConfig";
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
-export const pageview = (url) => {
+export const pageview = (url: string): void => {
   if (analyticId) {
     window.gtag("config", analyticId, {
       page_path: url,
@@ -10,7 +10,12 @@ export const pageview = (url) => {
 };
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
-export const event = ({ action, category, label, value }) => {
+export const event = ({ action, category, label, value }: {
+  action: string;
+  category: string;
+  label?: string;
+  value?: number;
+}): void => {
   if (analyticId) {
     window.gtag("event", action, {
       event_category: category,

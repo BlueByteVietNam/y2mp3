@@ -1,10 +1,12 @@
-import { domain, twitter } from "/data/siteConfig";
+import { domain, twitter } from "./data/siteConfig";
+import { DefaultSeoProps } from "next-seo";
+
 const title = "NextVita Fastest Next JS Template Free";
 const description =
   "Google Core Web Vital SEO update ready Next JS template with attractive blue theme for free download.";
 const siteName = "NextVita";
 const canonical = domain;
-const SEO = {
+const SEO: DefaultSeoProps = {
   title,
   description,
   titleTemplate: "%s | " + siteName,

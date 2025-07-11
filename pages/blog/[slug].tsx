@@ -1,13 +1,27 @@
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { MDXRemote } from "next-mdx-remote";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { domain } from "../../data/siteConfig";
 import { getFiles, getFileBySlug } from "../../lib/mdx";
 import Layout from "../../components/Layout";
 import Hero from "../../components/Hero";
+import { GetStaticPaths, GetStaticProps } from "next";
 
-export default function Blog({ mdxSource, frontMatter }) {
+interface BlogFrontMatter {
+  title: string;
+  summary: string;
+  publishedAt: string;
+  image: string;
+  [key: string]: any;
+}
+
+interface BlogProps {
+  mdxSource: MDXRemoteSerializeResult;
+  frontMatter: BlogFrontMatter;
+}
+
+export default function Blog({ mdxSource, frontMatter }: BlogProps) {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -16,7 +30,6 @@ export default function Blog({ mdxSource, frontMatter }) {
       <NextSeo
         title={frontMatter.title}
         description={frontMatter.summary}
-        date={new Date(frontMatter.publishedAt).toISOString()}
         canonical={`${domain}/blog/${slug}`}
         openGraph={{
           title: frontMatter.title,
@@ -40,7 +53,7 @@ export default function Blog({ mdxSource, frontMatter }) {
       <section>
         <aside>
           <div>
-            <Image src={frontMatter.image} width={1350} height={650} />
+            <Image src={frontMatter.image} alt={frontMatter.title} width={1350} height={650} />
           </div>
           <div>
             <MDXRemote {...mdxSource} />
@@ -64,7 +77,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
-  const post = await getFileBySlug("blog", params.slug);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const post = await getFileBySlug("blog", params?.slug as string);
   return { props: post };
 }

@@ -1,11 +1,18 @@
-import { MDXRemote } from "next-mdx-remote";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { NextSeo } from "next-seo";
 import Layout from "../components/Layout";
 import { domain } from "../data/siteConfig";
 import { getFileBySlug } from "../lib/mdx";
 import Hero from "../components/Hero";
 
-export default function About({ mdxSource, frontMatter }) {
+interface AboutProps {
+  mdxSource: MDXRemoteSerializeResult;
+  frontMatter: {
+    [key: string]: any;
+  };
+}
+
+export default function About({ mdxSource, frontMatter }: AboutProps) {
   return (
     <Layout
       HeroComp={() => (
@@ -38,7 +45,7 @@ export default function About({ mdxSource, frontMatter }) {
 }
 
 export async function getStaticProps() {
-  const uses = await getFileBySlug("about");
+  const uses = await getFileBySlug("about", undefined);
 
   return { props: uses };
 }

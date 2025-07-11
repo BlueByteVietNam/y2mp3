@@ -3,9 +3,10 @@ import { NextSeo } from "next-seo";
 import { domain } from "../data/siteConfig";
 import Layout from "../components/Layout";
 import * as gtag from "../lib/analytics";
+import { FormEvent } from "react";
 
 const Contact = () => {
-  const handleOnSubmit = (ev) => {
+  const handleOnSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     gtag.event({
       action: "submit_form",
@@ -48,8 +49,8 @@ const Contact = () => {
           </select>
           <label htmlFor="textarea1">Textarea label:</label>
           <textarea
-            cols="30"
-            rows="5"
+            cols={30}
+            rows={5}
             id="textarea1"
             placeholder="Enter Message here"
           ></textarea>

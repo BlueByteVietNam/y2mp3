@@ -1,8 +1,12 @@
 import Image from "next/image";
-import React from "react";
+import React, { ComponentType } from "react";
 import Link from "next/link";
 
-const Header = ({ HeroComp }) => {
+interface HeaderProps {
+  HeroComp?: ComponentType;
+}
+
+const Header = ({ HeroComp }: HeaderProps) => {
   const [width, setWidth] = React.useState(0);
   if (typeof window !== "undefined") {
     React.useEffect(() => {
@@ -12,31 +16,23 @@ const Header = ({ HeroComp }) => {
   return (
     <header>
       <nav>
-        <Link href="/" passHref>
-          <a>
-            <Image src="/logo.png" alt="img-logo" width="211" height="60" />
-          </a>
+        <Link href="/">
+          <Image src="/logo.png" alt="img-logo" width="211" height="60" />
         </Link>
-        <Link href="/" passHref>
-          <a>
-            <Image
-              src="/logo2.png"
-              alt="img-logo-mobile"
-              width="60"
-              height="60"
-            />
-          </a>
+        <Link href="/">
+          <Image
+            src="/logo2.png"
+            alt="img-logo-mobile"
+            width="60"
+            height="60"
+          />
         </Link>
         <ul>
           <li>
-            <Link href="/">
-              <a>Home</a>
-            </Link>
+            <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/blog">
-              <a>Blog</a>
-            </Link>
+            <Link href="/blog">Blog</Link>
           </li>
           <li>
             <a
@@ -49,14 +45,10 @@ const Header = ({ HeroComp }) => {
             </a>
           </li>
           <li>
-            <Link href="/about">
-              <a>About</a>
-            </Link>
+            <Link href="/about">About</Link>
           </li>
           <li>
-            <Link href="/contact">
-              <a>Contact</a>
-            </Link>
+            <Link href="/contact">Contact</Link>
           </li>
         </ul>
       </nav>

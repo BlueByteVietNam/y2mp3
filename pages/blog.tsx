@@ -6,14 +6,27 @@ import Layout from "../components/Layout";
 import { getAllFilesFrontMatter } from "../lib/mdx";
 import Hero from "../components/Hero";
 
-export default function Blog({ posts }) {
+interface Post {
+  title: string;
+  publishedAt: string;
+  image: string;
+  summary: string;
+  slug: string;
+  [key: string]: any;
+}
+
+interface BlogProps {
+  posts: Post[];
+}
+
+export default function Blog({ posts }: BlogProps) {
   const [searchValue, setSearchValue] = useState("");
   const filteredBlogPosts = posts
     .sort(
-      (a, b) =>
+      (a: Post, b: Post) =>
         Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
     )
-    .filter((frontMatter) =>
+    .filter((frontMatter: Post) =>
       frontMatter.title.toLowerCase().includes(searchValue.toLowerCase())
     );
 
@@ -52,7 +65,7 @@ export default function Blog({ posts }) {
             No posts found.
           </p>
         )}
-        {filteredBlogPosts.map((frontMatter) => (
+        {filteredBlogPosts.map((frontMatter: Post) => (
           <BlogPost key={frontMatter.title} {...frontMatter} />
         ))}
       </section>

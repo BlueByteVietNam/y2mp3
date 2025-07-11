@@ -18,9 +18,7 @@ export default function Home() {
         <i>Github Repo ↗</i>
       </a>
       <Link href="/about">
-        <a>
-          <b>Get Started ↗ </b>
-        </a>
+        <b>Get Started ↗ </b>
       </Link>
     </p>
   );

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type { AppProps } from "next/app";
 import Image from "next/image";
 import Testimonials from "../components/Testimonials";
 import Button from "../components/Button";
@@ -7,7 +8,12 @@ import { useRouter } from "next/router";
 import "../styles/main.css";
 import * as gtag from "../lib/analytics";
 
-export function reportWebVitals({ id, name, label, value }) {
+export function reportWebVitals({ id, name, label, value }: {
+  id: string;
+  name: string;
+  label: string;
+  value: number;
+}) {
   //console.log({ id, name, label, value });
   if (label === "web-vital" && typeof window !== "undefined" && window.gtag) {
     window.gtag("event", name, {
@@ -19,10 +25,10 @@ export function reportWebVitals({ id, name, label, value }) {
   }
 }
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   useEffect(() => {
-    const handleRouteChange = (url) => {
+    const handleRouteChange = (url: string) => {
       gtag.pageview(url);
     };
     router.events.on("routeChangeComplete", handleRouteChange);
